@@ -5,4 +5,5 @@ dist/
 coverage/
 *.tsbuildinfo
 .DS_Store
+*.xlsx
 ~$*.xlsx
