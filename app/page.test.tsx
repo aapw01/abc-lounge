@@ -63,6 +63,22 @@ describe("Home page search experience", () => {
     expect(pearson?.value).toBe("多伦多皮尔逊国际机场");
   });
 
+  it("keeps upstream filter options available after downstream filters are selected", () => {
+    render(<Home />);
+
+    fireEvent.change(screen.getByLabelText("州"), { target: { value: "欧洲" } });
+    fireEvent.change(screen.getByLabelText("国家"), { target: { value: "英国" } });
+    fireEvent.change(screen.getByLabelText("城市"), { target: { value: "伦敦市" } });
+    fireEvent.click(screen.getByRole("button", { name: "更多筛选" }));
+    fireEvent.change(screen.getByLabelText("机场（显示三字码）"), { target: { value: "伦敦希思罗机场" } });
+    fireEvent.change(screen.getByLabelText("航站楼"), { target: { value: "T2航站楼" } });
+
+    const continentOptions = optionTexts(screen.getByLabelText("州"));
+
+    expect(continentOptions).toContain("欧洲");
+    expect(continentOptions).toContain("亚洲");
+  });
+
   it("searches and displays terminal names with normalized spacing", () => {
     render(<Home />);
 

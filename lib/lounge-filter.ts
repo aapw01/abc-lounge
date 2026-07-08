@@ -96,9 +96,19 @@ export function filterLounges(lounges: Lounge[], filters: LoungeFilters): Lounge
   });
 }
 
+function priorFilterScope(filters: LoungeFilters, key: FilterKey): LoungeFilters {
+  const scopedFilters = { ...EMPTY_FILTERS, query: filters.query };
+  const keyIndex = FILTER_KEYS.indexOf(key);
+
+  for (const priorKey of FILTER_KEYS.slice(0, keyIndex)) {
+    scopedFilters[priorKey] = normalizeFilterValue(priorKey, filters[priorKey]);
+  }
+
+  return scopedFilters;
+}
+
 export function getFilterOptions(lounges: Lounge[], filters: LoungeFilters, key: FilterKey): string[] {
-  const scopedFilters = { ...filters, [key]: "" };
-  const scoped = filterLounges(lounges, scopedFilters);
+  const scoped = filterLounges(lounges, priorFilterScope(filters, key));
   const values = new Set<string>();
 
   for (const item of scoped) {
@@ -129,6 +139,26 @@ export function sanitizeFilters(lounges: Lounge[], filters: LoungeFilters): Loun
   }
 
   return next;
+}
+
+export function applyFilterChange(
+  lounges: Lounge[],
+  filters: LoungeFilters,
+  key: keyof LoungeFilters,
+  value: string
+): LoungeFilters {
+  if (key === "query") {
+    return sanitizeFilters(lounges, { ...filters, query: value });
+  }
+
+  const keyIndex = FILTER_KEYS.indexOf(key);
+  const next = { ...filters, [key]: normalizeFilterValue(key, value) };
+
+  for (const downstreamKey of FILTER_KEYS.slice(keyIndex + 1)) {
+    next[downstreamKey] = "";
+  }
+
+  return sanitizeFilters(lounges, next);
 }
 
 export function formatAirportOption(lounge: Pick<Lounge, "airport" | "code">): string {

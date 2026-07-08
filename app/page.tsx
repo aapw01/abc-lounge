@@ -6,11 +6,11 @@ import { FilterSelect } from "../components/FilterSelect";
 import { LoungeCard } from "../components/LoungeCard";
 import loungesData from "../data/lounges.json";
 import {
+  applyFilterChange,
   EMPTY_FILTERS,
   filterLounges,
   formatAirportOption,
   getFilterOptions,
-  sanitizeFilters
 } from "../lib/lounge-filter";
 import type { FilterKey, Lounge, LoungeFilters } from "../lib/lounge-types";
 
@@ -51,7 +51,7 @@ export default function Home() {
   }, []);
 
   function updateFilter(key: keyof LoungeFilters, value: string) {
-    setFilters((current) => sanitizeFilters(lounges, { ...current, [key]: value }));
+    setFilters((current) => applyFilterChange(lounges, current, key, value));
   }
 
   function clearFilters() {
