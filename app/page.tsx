@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, SlidersHorizontal, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Search, SlidersHorizontal, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { FilterSelect } from "../components/FilterSelect";
 import { LoungeCard } from "../components/LoungeCard";
@@ -26,12 +26,16 @@ const FILTERS: Array<{ key: FilterKey; label: string; placeholder: string }> = [
   { key: "securityType", label: "安检类型", placeholder: "全部区域" }
 ];
 
+const PRIMARY_FILTERS = FILTERS.slice(0, 3);
+const ADVANCED_FILTERS = FILTERS.slice(3);
+
 function countActive(filters: LoungeFilters): number {
   return Object.values(filters).filter((value) => value.trim()).length;
 }
 
 export default function Home() {
   const [filters, setFilters] = useState<LoungeFilters>(EMPTY_FILTERS);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
   const results = useMemo(() => filterLounges(lounges, filters), [filters]);
   const activeCount = countActive(filters);
@@ -94,7 +98,7 @@ export default function Home() {
         </div>
 
         <div className="filter-grid">
-          {FILTERS.map((filter) => (
+          {PRIMARY_FILTERS.map((filter) => (
             <FilterSelect
               key={filter.key}
               label={filter.label}
@@ -106,6 +110,29 @@ export default function Home() {
             />
           ))}
         </div>
+
+        <div className="filter-actions">
+          <button type="button" className="advanced-toggle" onClick={() => setAdvancedOpen((open) => !open)}>
+            {advancedOpen ? <ChevronUp size={16} aria-hidden="true" /> : <ChevronDown size={16} aria-hidden="true" />}
+            {advancedOpen ? "收起筛选" : "更多筛选"}
+          </button>
+        </div>
+
+        {advancedOpen ? (
+          <div className="filter-grid advanced-filter-grid">
+            {ADVANCED_FILTERS.map((filter) => (
+              <FilterSelect
+                key={filter.key}
+                label={filter.label}
+                value={filters[filter.key]}
+                options={getFilterOptions(lounges, filters, filter.key)}
+                placeholder={filter.placeholder}
+                formatOption={filter.key === "airport" ? (value) => airportLabelByName.get(value) ?? value : undefined}
+                onChange={(value) => updateFilter(filter.key, value)}
+              />
+            ))}
+          </div>
+        ) : null}
       </section>
 
       <section className="results-section" aria-label="查询结果">

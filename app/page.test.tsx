@@ -9,6 +9,21 @@ function optionTexts(select: HTMLElement): string[] {
 }
 
 describe("Home page search experience", () => {
+  it("keeps advanced filters collapsed until the user asks for them", () => {
+    render(<Home />);
+
+    expect(screen.getAllByRole("combobox")).toHaveLength(3);
+    expect(screen.getByLabelText("州")).toBeTruthy();
+    expect(screen.getByLabelText("国家")).toBeTruthy();
+    expect(screen.getByLabelText("城市")).toBeTruthy();
+    expect(screen.queryByLabelText("机场（显示三字码）")).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: "更多筛选" }));
+
+    expect(screen.getAllByRole("combobox")).toHaveLength(7);
+    expect(screen.getByLabelText("机场（显示三字码）")).toBeTruthy();
+  });
+
   it("renders the search controls and cascades country options by continent", () => {
     render(<Home />);
 
@@ -29,6 +44,7 @@ describe("Home page search experience", () => {
     render(<Home />);
 
     fireEvent.change(screen.getByLabelText("国家"), { target: { value: "加拿大" } });
+    fireEvent.click(screen.getByRole("button", { name: "更多筛选" }));
 
     const airport = screen.getByLabelText("机场（显示三字码）") as HTMLSelectElement;
     const airportOptions = Array.from(airport.options);
