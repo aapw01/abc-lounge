@@ -54,6 +54,8 @@ button:disabled {
 }
 
 .hero-panel {
+  position: relative;
+  overflow: hidden;
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
@@ -62,8 +64,8 @@ button:disabled {
   border-radius: 8px;
   padding: 24px 20px;
   background:
-    linear-gradient(145deg, rgba(255, 254, 249, 0.95), rgba(255, 254, 249, 0.76)),
-    radial-gradient(circle at 88% 18%, rgba(185, 137, 50, 0.28), transparent 34%),
+    linear-gradient(115deg, rgba(255, 254, 249, 0.97), rgba(255, 254, 249, 0.78)),
+    url("/lounge-terminal-texture.png") center / cover,
     var(--panel);
   box-shadow: var(--shadow);
 }
