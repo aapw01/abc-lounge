@@ -1,16 +1,16 @@
 :root {
   color-scheme: light;
-  --ink: #17201a;
-  --muted: #627169;
-  --paper: #edf3f1;
-  --panel: #fffef9;
-  --line: #d8ded8;
-  --accent: #14664f;
-  --accent-strong: #0e4939;
-  --gold: #b98932;
-  --mint: #dfeee7;
-  --rust: #97482e;
-  --shadow: 0 18px 60px rgba(31, 54, 43, 0.14);
+  --ink: #1d1d1f;
+  --muted: #6e6e73;
+  --paper: #f5f5f7;
+  --panel: rgba(255, 255, 255, 0.84);
+  --line: rgba(0, 0, 0, 0.1);
+  --accent: #0071e3;
+  --accent-strong: #0057b8;
+  --success: #18864b;
+  --mint: #eef7f2;
+  --rust: #a2452d;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 * {
@@ -26,11 +26,8 @@ body {
   min-height: 100%;
   margin: 0;
   color: var(--ink);
-  background:
-    linear-gradient(135deg, rgba(20, 102, 79, 0.08), transparent 38%),
-    linear-gradient(315deg, rgba(185, 137, 50, 0.1), transparent 32%),
-    var(--paper);
-  font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--paper);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
 }
 
 button,
@@ -50,7 +47,7 @@ button:disabled {
 .app-shell {
   width: min(100%, 1120px);
   margin: 0 auto;
-  padding: 14px;
+  padding: 12px;
 }
 
 .hero-panel {
@@ -58,78 +55,75 @@ button:disabled {
   overflow: hidden;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
-  min-height: 214px;
-  border: 1px solid rgba(216, 222, 216, 0.9);
+  gap: 14px;
+  border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 24px 20px;
+  padding: 16px;
   background:
-    linear-gradient(115deg, rgba(255, 254, 249, 0.97), rgba(255, 254, 249, 0.78)),
-    url("/lounge-terminal-texture.png") center / cover,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.9) 58%, rgba(255, 255, 255, 0.58) 100%),
+    url("/lounge-terminal-texture.png") right center / auto 100% no-repeat,
     var(--panel);
   box-shadow: var(--shadow);
+  backdrop-filter: blur(22px);
 }
 
 .eyebrow {
-  margin: 0 0 12px;
-  color: var(--accent);
-  font-size: 0.78rem;
+  margin: 0 0 6px;
+  color: var(--success);
+  font-size: 0.75rem;
+  font-weight: 700;
   letter-spacing: 0;
   text-transform: uppercase;
 }
 
 h1 {
   margin: 0;
-  font-family: ui-serif, "Songti SC", "Noto Serif CJK SC", Georgia, serif;
-  font-size: 2.08rem;
-  line-height: 1.12;
+  font-size: 1.64rem;
+  line-height: 1.18;
+  font-weight: 800;
   letter-spacing: 0;
 }
 
 .hero-copy {
   max-width: 560px;
-  margin: 14px 0 0;
+  margin: 6px 0 0;
   color: var(--muted);
-  line-height: 1.75;
+  font-size: 0.94rem;
+  line-height: 1.5;
 }
 
-.hero-stats {
-  justify-self: start;
-  width: 156px;
-  min-height: 128px;
-  border: 1px solid rgba(20, 102, 79, 0.18);
+.summary-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.summary-pills span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  border: 1px solid rgba(0, 113, 227, 0.16);
   border-radius: 8px;
-  padding: 18px;
-  background: rgba(255, 254, 249, 0.82);
-}
-
-.hero-stats strong {
-  display: block;
-  color: var(--accent-strong);
-  font-family: ui-serif, "Songti SC", "Noto Serif CJK SC", Georgia, serif;
-  font-size: 2.38rem;
-  line-height: 1;
-  letter-spacing: 0;
-}
-
-.hero-stats span,
-.hero-stats small {
-  display: block;
-  margin-top: 8px;
+  padding: 0 10px;
+  background: rgba(255, 255, 255, 0.72);
   color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.hero-stats small {
-  color: var(--rust);
+.summary-pills span:first-child {
+  color: var(--ink);
 }
 
 .search-panel,
 .results-section {
-  margin-top: 12px;
-  border: 1px solid rgba(216, 222, 216, 0.92);
+  margin-top: 10px;
+  border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 254, 249, 0.94);
-  box-shadow: 0 12px 36px rgba(31, 54, 43, 0.08);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(22px);
 }
 
 .search-panel {
@@ -142,10 +136,10 @@ h1 {
   align-items: center;
   gap: 10px;
   min-height: 48px;
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: 8px;
   padding: 0 14px;
-  background: #ffffff;
+  background: #f5f5f7;
   color: var(--accent);
 }
 
@@ -160,7 +154,7 @@ h1 {
 }
 
 .search-box input::placeholder {
-  color: #87938d;
+  color: #86868b;
 }
 
 .filter-header {
@@ -177,7 +171,7 @@ h1 {
   gap: 7px;
   margin: 0;
   color: var(--ink);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .filter-header span {
@@ -194,19 +188,18 @@ h1 {
   justify-content: center;
   gap: 6px;
   min-height: 38px;
-  border: 1px solid rgba(20, 102, 79, 0.24);
+  border: 1px solid transparent;
   border-radius: 8px;
   padding: 0 12px;
   background: var(--accent);
-  color: #fffef9;
+  color: #ffffff;
   font-size: 0.92rem;
   white-space: nowrap;
 }
 
 .filter-header button:disabled {
-  border-color: var(--line);
-  background: #eef2ee;
-  color: #9aa49e;
+  background: #f5f5f7;
+  color: #a1a1a6;
 }
 
 .filter-grid {
@@ -235,10 +228,10 @@ h1 {
   width: 100%;
   min-width: 0;
   min-height: 44px;
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: 8px;
   padding: 0 38px 0 12px;
-  background: #ffffff;
+  background: #f5f5f7;
   color: var(--ink);
   outline: 0;
 }
@@ -255,11 +248,11 @@ h1 {
   justify-content: center;
   gap: 6px;
   min-height: 38px;
-  border: 1px solid rgba(20, 102, 79, 0.22);
+  border: 1px solid var(--line);
   border-radius: 8px;
   padding: 0 14px;
   background: #ffffff;
-  color: var(--accent-strong);
+  color: var(--accent);
   font-size: 0.9rem;
   font-weight: 800;
   white-space: nowrap;
@@ -267,8 +260,8 @@ h1 {
 
 .filter-field select:focus,
 .search-box:focus-within {
-  border-color: rgba(20, 102, 79, 0.72);
-  box-shadow: 0 0 0 3px rgba(20, 102, 79, 0.12);
+  border-color: rgba(0, 113, 227, 0.48);
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
 }
 
 .results-section {
@@ -286,7 +279,7 @@ h1 {
   gap: 10px;
   border-bottom: 1px solid var(--line);
   padding: 14px;
-  background: rgba(255, 254, 249, 0.96);
+  background: rgba(255, 255, 255, 0.86);
   backdrop-filter: blur(14px);
 }
 
@@ -308,11 +301,11 @@ h1 {
 }
 
 .lounge-card {
-  border: 1px solid rgba(216, 222, 216, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   padding: 14px;
-  background:
-    linear-gradient(180deg, #ffffff, #fbfdf9);
+  background: #ffffff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
 }
 
 .card-heading {
@@ -324,29 +317,29 @@ h1 {
 
 .city-line {
   margin: 0 0 6px;
-  color: var(--accent);
+  color: var(--muted);
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .lounge-card h2 {
   margin: 0;
   color: var(--ink);
-  font-family: ui-serif, "Songti SC", "Noto Serif CJK SC", Georgia, serif;
-  font-size: 1.14rem;
+  font-size: 1.04rem;
   line-height: 1.38;
+  font-weight: 800;
   letter-spacing: 0;
   overflow-wrap: anywhere;
 }
 
 .airport-code {
   min-width: 50px;
-  border: 1px solid rgba(185, 137, 50, 0.44);
+  border: 1px solid rgba(0, 113, 227, 0.16);
   border-radius: 8px;
   padding: 6px 8px;
-  background: rgba(185, 137, 50, 0.1);
-  color: #755316;
-  font-weight: 900;
+  background: rgba(0, 113, 227, 0.08);
+  color: var(--accent);
+  font-weight: 800;
   text-align: center;
 }
 
@@ -371,8 +364,8 @@ h1 {
   max-width: 100%;
   border-radius: 8px;
   padding: 7px 9px;
-  background: var(--mint);
-  color: var(--accent-strong);
+  background: #f5f5f7;
+  color: #424245;
   font-size: 0.84rem;
   line-height: 1.35;
   overflow-wrap: anywhere;
@@ -383,12 +376,12 @@ h1 {
   grid-template-columns: 18px 1fr;
   gap: 8px;
   margin-top: 13px;
-  color: var(--rust);
+  color: var(--accent);
 }
 
 .direction-line p {
   margin: 0;
-  color: #5d675f;
+  color: var(--muted);
   line-height: 1.68;
   overflow-wrap: anywhere;
 }
@@ -408,22 +401,21 @@ h1 {
 
 @media (min-width: 680px) {
   .app-shell {
-    padding: 28px;
+    padding: 24px;
   }
 
   .hero-panel {
     grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    min-height: 256px;
-    padding: 34px;
+    align-items: center;
+    padding: 18px 20px;
   }
 
   h1 {
     max-width: 720px;
-    font-size: 3.8rem;
+    font-size: 1.86rem;
   }
 
-  .hero-stats {
+  .summary-pills {
     justify-self: end;
   }
 
@@ -442,7 +434,7 @@ h1 {
 
 @media (min-width: 980px) {
   .app-shell {
-    padding: 36px;
+    padding: 28px;
   }
 
   .filter-grid {

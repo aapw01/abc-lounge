@@ -63,13 +63,13 @@ export default function Home() {
       <section className="hero-panel">
         <div className="hero-text">
           <p className="eyebrow">ABC DragonPass</p>
-          <h1>农行境外贵宾休息室查询</h1>
-          <p className="hero-copy">境外机场贵宾休息室地址索引</p>
+          <h1>贵宾厅查询</h1>
+          <p className="hero-copy">农行境外机场贵宾休息室地址索引</p>
         </div>
-        <div className="hero-stats" aria-label="数据概览">
-          <strong>{lounges.length}</strong>
-          <span>间休息室</span>
-          <small>{results.length} 条匹配</small>
+        <div className="summary-pills" aria-label="查询摘要">
+          <span>{lounges.length} 间</span>
+          <span>{results.length} 条匹配</span>
+          <span>{activeCount ? `已选 ${activeCount}` : "未筛选"}</span>
         </div>
       </section>
 

@@ -9,6 +9,15 @@ function optionTexts(select: HTMLElement): string[] {
 }
 
 describe("Home page search experience", () => {
+  it("uses a compact header summary instead of a large stats card", () => {
+    render(<Home />);
+
+    expect(screen.getByLabelText("查询摘要")).toBeTruthy();
+    expect(screen.getByText("1024 间")).toBeTruthy();
+    expect(screen.getByText("1024 条匹配")).toBeTruthy();
+    expect(screen.queryByLabelText("数据概览")).toBeNull();
+  });
+
   it("keeps advanced filters collapsed until the user asks for them", () => {
     render(<Home />);
 
