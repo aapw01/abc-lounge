@@ -97,7 +97,7 @@ export function filterLounges(lounges: Lounge[], filters: LoungeFilters): Lounge
 }
 
 function priorFilterScope(filters: LoungeFilters, key: FilterKey): LoungeFilters {
-  const scopedFilters = { ...EMPTY_FILTERS, query: filters.query };
+  const scopedFilters = { ...EMPTY_FILTERS, query: "" };
   const keyIndex = FILTER_KEYS.indexOf(key);
 
   for (const priorKey of FILTER_KEYS.slice(0, keyIndex)) {

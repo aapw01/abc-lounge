@@ -162,6 +162,17 @@ describe("lounge filter engine", () => {
     );
   });
 
+  it("does not let query text hide cascade filter options", () => {
+    const selected = filters({
+      query: "没有匹配的搜索词",
+      continent: "欧洲",
+      country: "英国"
+    });
+
+    expect(getFilterOptions(cascadeLounges, selected, "continent")).toEqual(expect.arrayContaining(["亚洲", "欧洲"]));
+    expect(getFilterOptions(cascadeLounges, selected, "country")).toEqual(expect.arrayContaining(["法国", "英国"]));
+  });
+
   it("clears downstream filters after changing an upstream filter", () => {
     const selected = filters({
       continent: "欧洲",
