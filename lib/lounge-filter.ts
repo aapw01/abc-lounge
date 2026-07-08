@@ -23,6 +23,18 @@ const FILTER_KEYS: FilterKey[] = [
 
 const SPLIT_FIELDS = new Set<FilterKey>(["departureType"]);
 
+export function normalizeTerminal(value: string): string {
+  return value
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/^([A-Za-z]\d+[A-Za-z]?)\s+航站楼$/i, "$1航站楼");
+}
+
+export function normalizeFilterValue(key: FilterKey, value: string): string {
+  const trimmed = value.replace(/\s+/g, " ").trim();
+  return key === "terminal" ? normalizeTerminal(trimmed) : trimmed;
+}
+
 export function splitValues(value: string): string[] {
   return value
     .split(/[,，]/)
@@ -35,14 +47,16 @@ function itemValues(item: Lounge, key: FilterKey): string[] {
   if (!value) {
     return [];
   }
-  return SPLIT_FIELDS.has(key) ? splitValues(value) : [value];
+  const values = SPLIT_FIELDS.has(key) ? splitValues(value) : [value];
+  return values.map((part) => normalizeFilterValue(key, part)).filter(Boolean);
 }
 
 function matchesField(item: Lounge, key: FilterKey, expected: string): boolean {
-  if (!expected) {
+  const normalizedExpected = normalizeFilterValue(key, expected);
+  if (!normalizedExpected) {
     return true;
   }
-  return itemValues(item, key).includes(expected);
+  return itemValues(item, key).includes(normalizedExpected);
 }
 
 function matchesQuery(item: Lounge, query: string): boolean {
@@ -93,10 +107,11 @@ export function sanitizeFilters(lounges: Lounge[], filters: LoungeFilters): Loun
   const hierarchyContext = { ...EMPTY_FILTERS, query: "" };
 
   for (const key of FILTER_KEYS) {
-    const value = next[key];
+    const value = normalizeFilterValue(key, next[key]);
     const options = getFilterOptions(lounges, hierarchyContext, key);
 
     if (value && options.includes(value)) {
+      next[key] = value;
       hierarchyContext[key] = value;
       continue;
     }

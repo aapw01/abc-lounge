@@ -81,6 +81,29 @@ describe("lounge filter engine", () => {
     expect(formatAirportOption(lounges[0])).toBe("东京成田国际机场 · NRT");
   });
 
+  it("normalizes terminal spacing for filter options and matching", () => {
+    const heathrowLounges: Lounge[] = [
+      {
+        ...lounges[2],
+        id: "lhr-1",
+        terminal: "T2 航站楼",
+        loungeName: "No1 Lounge"
+      },
+      {
+        ...lounges[2],
+        id: "lhr-2",
+        terminal: "T2航站楼",
+        loungeName: "Plaza Premium Lounge"
+      }
+    ];
+
+    expect(getFilterOptions(heathrowLounges, EMPTY_FILTERS, "terminal")).toEqual(["T2航站楼"]);
+    expect(filterLounges(heathrowLounges, filters({ terminal: "T2航站楼" })).map((item) => item.id)).toEqual([
+      "lhr-1",
+      "lhr-2"
+    ]);
+  });
+
   it("clears invalid downstream values after upstream changes", () => {
     const stale = filters({ continent: "欧洲", country: "日本", city: "东京" });
 

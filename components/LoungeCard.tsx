@@ -1,5 +1,6 @@
 import { MapPin, Plane, ShieldCheck } from "lucide-react";
 import type { Lounge } from "../lib/lounge-types";
+import { normalizeTerminal } from "../lib/lounge-filter";
 
 function valueOrFallback(value: string): string {
   return value || "未注明";
@@ -21,7 +22,7 @@ export function LoungeCard({ lounge }: { lounge: Lounge }) {
       <div className="card-tags">
         <span>
           <Plane size={15} aria-hidden="true" />
-          {valueOrFallback(lounge.terminal)}
+          {valueOrFallback(normalizeTerminal(lounge.terminal))}
         </span>
         <span>
           <ShieldCheck size={15} aria-hidden="true" />
