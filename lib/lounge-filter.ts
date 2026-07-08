@@ -30,6 +30,14 @@ export function normalizeTerminal(value: string): string {
     .replace(/^([A-Za-z]\d+[A-Za-z]?)\s+航站楼$/i, "$1航站楼");
 }
 
+function normalizeSearchText(value: string): string {
+  return value
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/([A-Za-z]\d+[A-Za-z]?)\s+航站楼/gi, "$1航站楼")
+    .toLowerCase();
+}
+
 export function normalizeFilterValue(key: FilterKey, value: string): string {
   const trimmed = value.replace(/\s+/g, " ").trim();
   return key === "terminal" ? normalizeTerminal(trimmed) : trimmed;
@@ -60,12 +68,12 @@ function matchesField(item: Lounge, key: FilterKey, expected: string): boolean {
 }
 
 function matchesQuery(item: Lounge, query: string): boolean {
-  const normalized = query.trim().toLowerCase();
+  const normalized = normalizeSearchText(query);
   if (!normalized) {
     return true;
   }
 
-  return [
+  const searchable = [
     item.continent,
     item.country,
     item.city,
@@ -77,9 +85,9 @@ function matchesQuery(item: Lounge, query: string): boolean {
     item.securityType,
     item.directions
   ]
-    .join(" ")
-    .toLowerCase()
-    .includes(normalized);
+    .join(" ");
+
+  return normalizeSearchText(searchable).includes(normalized);
 }
 
 export function filterLounges(lounges: Lounge[], filters: LoungeFilters): Lounge[] {

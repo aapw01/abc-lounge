@@ -104,6 +104,30 @@ describe("lounge filter engine", () => {
     ]);
   });
 
+  it("searches terminals with normalized spacing", () => {
+    const heathrowLounges: Lounge[] = [
+      {
+        ...lounges[2],
+        id: "lhr-1",
+        terminal: "T2 航站楼",
+        loungeName: "No1 Lounge",
+        directions: "A18登机口附近"
+      },
+      {
+        ...lounges[2],
+        id: "lhr-2",
+        terminal: "T2航站楼",
+        loungeName: "Plaza Premium Lounge",
+        directions: "A3 Lounge标识附近"
+      }
+    ];
+
+    expect(filterLounges(heathrowLounges, filters({ query: "T2航站楼" })).map((item) => item.id)).toEqual([
+      "lhr-1",
+      "lhr-2"
+    ]);
+  });
+
   it("clears invalid downstream values after upstream changes", () => {
     const stale = filters({ continent: "欧洲", country: "日本", city: "东京" });
 

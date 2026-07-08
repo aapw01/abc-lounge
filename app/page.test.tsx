@@ -62,4 +62,17 @@ describe("Home page search experience", () => {
     expect(pearson?.textContent).toContain("多伦多皮尔逊国际机场 · YYZ");
     expect(pearson?.value).toBe("多伦多皮尔逊国际机场");
   });
+
+  it("searches and displays terminal names with normalized spacing", () => {
+    render(<Home />);
+
+    fireEvent.change(screen.getByPlaceholderText("搜索城市、机场、三字码、休息室名称"), {
+      target: { value: "T2航站楼" }
+    });
+
+    expect(screen.getByText("No1 Lounge")).toBeTruthy();
+    expect(screen.getAllByText("Plaza Premium Lounge").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("T2航站楼").length).toBeGreaterThan(1);
+    expect(screen.queryByText("T2 航站楼")).toBeNull();
+  });
 });
