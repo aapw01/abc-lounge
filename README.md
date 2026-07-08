@@ -30,4 +30,6 @@ npm run build
 
 ## Vercel 部署
 
+正式域名：`https://abc-lounges.vercel.app/`
+
 将仓库导入 Vercel，框架选择 Next.js，Build Command 使用 `npm run build`。本项目不需要后端服务或数据库。

@@ -4,13 +4,18 @@ import "./globals.css";
 const siteTitle = "农行 Visa 全球支付尊享白金卡境外贵宾厅查询";
 const siteDescription =
   "查询农业银行、农行 Visa 全球支付尊享白金卡可用的境外机场贵宾厅，支持按州、国家、城市、机场、航站楼和三字码筛选。";
+const siteUrl = "https://abc-lounges.vercel.app";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: siteTitle,
     template: "%s | 农行境外贵宾厅查询"
   },
   description: siteDescription,
+  alternates: {
+    canonical: "/"
+  },
   applicationName: "农行境外贵宾厅查询",
   keywords: [
     "农行visa全球支付尊享白金卡境外贵宾厅",
@@ -34,6 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: siteTitle,
     description: siteDescription,
+    url: "/",
     siteName: "农行境外贵宾厅查询",
     locale: "zh_CN",
     type: "website"
